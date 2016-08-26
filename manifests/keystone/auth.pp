@@ -39,19 +39,28 @@
 #
 # [*service_description*]
 #   (optional) Description of the service.
-#   Default to 'panko FIXME Service'
+#   Default to 'OpenStack Event Service'
 #
 # [*public_url*]
-#   (optional) The endpoint's public url. (Defaults to 'http://127.0.0.1:FIXME')
+#   (optional) The endpoint's public url. (Defaults to 'http://127.0.0.1:8779')
 #   This url should *not* contain any trailing '/'.
 #
 # [*admin_url*]
-#   (optional) The endpoint's admin url. (Defaults to 'http://127.0.0.1:FIXME')
+#   (optional) The endpoint's admin url. (Defaults to 'http://127.0.0.1:8779')
 #   This url should *not* contain any trailing '/'.
 #
 # [*internal_url*]
-#   (optional) The endpoint's internal url. (Defaults to 'http://127.0.0.1:FIXME')
+#   (optional) The endpoint's internal url. (Defaults to 'http://127.0.0.1:8779')
 #
+# === Examples:
+#
+#  class { 'panko::keystone::auth':
+#    public_url   => 'https://10.0.0.10:8779',
+#    internal_url => 'https://10.0.0.11:8779',
+#    admin_url    => 'https://10.0.0.11:8779',
+#  }
+#
+
 class panko::keystone::auth (
   $password,
   $auth_name           = 'panko',
@@ -61,18 +70,14 @@ class panko::keystone::auth (
   $configure_user      = true,
   $configure_user_role = true,
   $service_name        = 'panko',
-  $service_description = 'panko FIXME Service',
-  $service_type        = 'FIXME',
+  $service_description = 'OpenStack Event Service',
+  $service_type        = 'event',
   $region              = 'RegionOne',
-  $public_url          = 'http://127.0.0.1:FIXME',
-  $admin_url           = 'http://127.0.0.1:FIXME',
-  $internal_url        = 'http://127.0.0.1:FIXME',
+  $public_url          = 'http://127.0.0.1:8779',
+  $admin_url           = 'http://127.0.0.1:8779',
+  $internal_url        = 'http://127.0.0.1:8779',
 ) {
 
-  if $configure_user_role {
-    Keystone_user_role["${auth_name}@${tenant}"] ~> Service <| name == 'panko-server' |>
-  }
-  Keystone_endpoint["${region}/${service_name}::${service_type}"]  ~> Service <| name == 'panko-server' |>
 
   keystone::resource::service_identity { 'panko':
     configure_user      => $configure_user,

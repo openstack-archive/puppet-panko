@@ -22,16 +22,16 @@ describe 'panko::keystone::auth' do
         :roles   => ['admin']
       )}
 
-      it { is_expected.to contain_keystone_service('panko::FIXME').with(
+      it { is_expected.to contain_keystone_service('panko::event').with(
         :ensure      => 'present',
-        :description => 'panko FIXME Service'
+        :description => 'OpenStack Event Service'
       ) }
 
-      it { is_expected.to contain_keystone_endpoint('RegionOne/panko::FIXME').with(
+      it { is_expected.to contain_keystone_endpoint('RegionOne/panko::event').with(
         :ensure       => 'present',
-        :public_url   => 'http://127.0.0.1:FIXME',
-        :admin_url    => 'http://127.0.0.1:FIXME',
-        :internal_url => 'http://127.0.0.1:FIXME',
+        :public_url   => 'http://127.0.0.1:8779',
+        :admin_url    => 'http://127.0.0.1:8779',
+        :internal_url => 'http://127.0.0.1:8779',
       ) }
     end
 
@@ -43,7 +43,7 @@ describe 'panko::keystone::auth' do
           :admin_url    => 'http://10.10.10.12:81', }
       end
 
-      it { is_expected.to contain_keystone_endpoint('RegionOne/panko::FIXME').with(
+      it { is_expected.to contain_keystone_endpoint('RegionOne/panko::event').with(
         :ensure       => 'present',
         :public_url   => 'https://10.10.10.10:80',
         :internal_url => 'http://10.10.10.11:81',
@@ -59,8 +59,8 @@ describe 'panko::keystone::auth' do
 
       it { is_expected.to contain_keystone_user('pankoy') }
       it { is_expected.to contain_keystone_user_role('pankoy@services') }
-      it { is_expected.to contain_keystone_service('panko::FIXME') }
-      it { is_expected.to contain_keystone_endpoint('RegionOne/panko::FIXME') }
+      it { is_expected.to contain_keystone_service('panko::event') }
+      it { is_expected.to contain_keystone_endpoint('RegionOne/panko::event') }
     end
 
     context 'when overriding service name' do
@@ -72,8 +72,8 @@ describe 'panko::keystone::auth' do
 
       it { is_expected.to contain_keystone_user('panko') }
       it { is_expected.to contain_keystone_user_role('panko@services') }
-      it { is_expected.to contain_keystone_service('panko_service::FIXME') }
-      it { is_expected.to contain_keystone_endpoint('RegionOne/panko_service::FIXME') }
+      it { is_expected.to contain_keystone_service('panko_service::event') }
+      it { is_expected.to contain_keystone_endpoint('RegionOne/panko_service::event') }
     end
 
     context 'when disabling user configuration' do
@@ -87,9 +87,9 @@ describe 'panko::keystone::auth' do
 
       it { is_expected.not_to contain_keystone_user('panko') }
       it { is_expected.to contain_keystone_user_role('panko@services') }
-      it { is_expected.to contain_keystone_service('panko::FIXME').with(
+      it { is_expected.to contain_keystone_service('panko::event').with(
         :ensure      => 'present',
-        :description => 'panko FIXME Service'
+        :description => 'OpenStack Event Service'
       ) }
 
     end
@@ -106,9 +106,9 @@ describe 'panko::keystone::auth' do
 
       it { is_expected.not_to contain_keystone_user('panko') }
       it { is_expected.not_to contain_keystone_user_role('panko@services') }
-      it { is_expected.to contain_keystone_service('panko::FIXME').with(
+      it { is_expected.to contain_keystone_service('panko::event').with(
         :ensure      => 'present',
-        :description => 'panko FIXME Service'
+        :description => 'OpenStack Event Service'
       ) }
 
     end
