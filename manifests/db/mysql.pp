@@ -65,5 +65,5 @@ class panko::db::mysql(
     allowed_hosts => $allowed_hosts,
   }
 
-  ::Openstacklib::Db::Mysql['panko'] ~> Exec<| title == 'panko-manage db_sync' |>
+  ::Openstacklib::Db::Mysql['panko'] ~> Exec<| title == 'panko-db-sync' |>
 }

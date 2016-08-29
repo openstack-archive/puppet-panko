@@ -12,12 +12,15 @@ class panko::db::sync(
   $extra_params  = undef,
 ) {
   exec { 'panko-db-sync':
-    command     => "panko-manage db_sync ${extra_params}",
+    command     => "panko-dbsync --config-file /etc/panko/panko.conf ${extra_params}",
     path        => '/usr/bin',
     user        => 'panko',
     refreshonly => true,
-    subscribe   => [Package['panko'], Panko_config['database/connection']],
+    logoutput   => 'on_failure',
   }
 
-  Exec['panko-manage db_sync'] ~> Service<| title == 'panko' |>
+  Package<| tag == 'panko-package' |> ~> Exec['panko-db-sync']
+  Exec['panko-db-sync'] ~> Service<| tag == 'panko-db-sync-service' |>
+  Panko_config<||> ~> Exec['panko-db-sync']
+  Panko_config<| title == 'database/connection' |> ~> Exec['panko-db-sync']
 }

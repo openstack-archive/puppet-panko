@@ -50,6 +50,6 @@ class panko::db::postgresql(
     privileges    => $privileges,
   }
 
-  ::Openstacklib::Db::Postgresql['panko'] ~> Exec<| title == 'panko-manage db_sync' |>
+  ::Openstacklib::Db::Postgresql['panko'] ~> Exec<| title == 'panko-db-sync' |>
 
 }
