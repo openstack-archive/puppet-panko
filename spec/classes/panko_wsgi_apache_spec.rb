@@ -51,7 +51,7 @@ describe 'panko::wsgi::apache' do
           :bind_host   => '10.42.51.1',
           :port        => 12345,
           :ssl         => false,
-          :workers     => 37,
+          :workers     => 8,
         }
       end
 
@@ -79,7 +79,7 @@ describe 'panko::wsgi::apache' do
     context "on #{os}" do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts({
-          :processorcount => 42,
+          :os_workers     => 4,
           :concat_basedir => '/var/lib/puppet/concat',
           :fqdn           => 'some.host.tld',
         }))

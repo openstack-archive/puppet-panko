@@ -20,7 +20,7 @@
 #
 # [*workers*]
 #   (optional) Number of workers for Panko API server.
-#   Defaults to $::processorcount
+#   Defaults to $::os_workers
 #
 # [*max_limit*]
 #   (optional) The maximum number of items returned in a
@@ -55,7 +55,7 @@ class panko::api (
   $package_ensure        = 'present',
   $host                  = '0.0.0.0',
   $port                  = '8779',
-  $workers               = $::processorcount,
+  $workers               = $::os_workers,
   $max_limit             = 1000,
   $service_name          = $::panko::params::api_service_name,
   $sync_db               = false,
