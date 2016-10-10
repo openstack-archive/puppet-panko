@@ -155,7 +155,6 @@ describe 'panko::api' do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts({
           :concat_basedir => '/var/lib/puppet/concat',
-          :processorcount => 2
         }))
       end
 
