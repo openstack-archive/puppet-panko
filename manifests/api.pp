@@ -49,17 +49,23 @@
 #   Can be set to noauth and keystone.
 #   Defaults to 'keystone'.
 #
+# [*enable_proxy_headers_parsing*]
+#   (Optional) Enable paste middleware to handle SSL requests through
+#   HTTPProxyToWSGI middleware.
+#   Defaults to $::os_service_default.
+#
 class panko::api (
-  $manage_service        = true,
-  $enabled               = true,
-  $package_ensure        = 'present',
-  $host                  = '0.0.0.0',
-  $port                  = '8779',
-  $workers               = $::os_workers,
-  $max_limit             = 1000,
-  $service_name          = $::panko::params::api_service_name,
-  $sync_db               = false,
-  $auth_strategy         = 'keystone',
+  $manage_service               = true,
+  $enabled                      = true,
+  $package_ensure               = 'present',
+  $host                         = '0.0.0.0',
+  $port                         = '8779',
+  $workers                      = $::os_workers,
+  $max_limit                    = 1000,
+  $service_name                 = $::panko::params::api_service_name,
+  $sync_db                      = false,
+  $auth_strategy                = 'keystone',
+  $enable_proxy_headers_parsing = $::os_service_default,
 ) inherits panko::params {
 
   include ::panko::policy
@@ -132,6 +138,10 @@ class panko::api (
     panko_api_paste_ini {
       'pipeline:main/pipeline':  value => 'panko+noauth',
     }
+  }
+
+  oslo::middleware { 'panko_config':
+    enable_proxy_headers_parsing => $enable_proxy_headers_parsing,
   }
 
 }

@@ -38,6 +38,7 @@ describe 'panko::api' do
       is_expected.to contain_panko_config('api/port').with_value( params[:port] )
       is_expected.to contain_panko_config('api/max_limit').with_value( params[:max_limit] )
       is_expected.to contain_panko_config('api/workers').with_value('2')
+      is_expected.to contain_panko_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
@@ -66,6 +67,14 @@ describe 'panko::api' do
           :sync_db => true})
       end
       it { is_expected.to contain_class('panko::db::sync') }
+    end
+
+    context 'with enable_proxy_headers_parsing' do
+      before do
+        params.merge!({:enable_proxy_headers_parsing => true })
+      end
+
+      it { is_expected.to contain_panko_config('oslo_middleware/enable_proxy_headers_parsing').with_value(true) }
     end
 
     context 'with disabled service managing' do
