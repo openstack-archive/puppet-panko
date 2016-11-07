@@ -119,7 +119,8 @@ class panko::api (
     # we need to make sure panko-api/eventlet is stopped before trying to start apache
     Service['panko-api'] -> Service[$service_name]
   } else {
-    fail('Invalid service_name. Either panko/openstack-panko-api for running as a standalone service, or httpd for being run by a httpd server')
+    fail("Invalid service_name. Either panko/openstack-panko-api for \
+running as a standalone service, or httpd for being run by a httpd server")
   }
 
   panko_config {
