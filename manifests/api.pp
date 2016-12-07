@@ -68,15 +68,9 @@ class panko::api (
   $enable_proxy_headers_parsing = $::os_service_default,
 ) inherits panko::params {
 
+  include ::panko::deps
   include ::panko::policy
 
-  Panko_config<||> ~> Service[$service_name]
-  Panko_api_paste_ini<||> ~> Service[$service_name]
-  Class['panko::policy'] ~> Service[$service_name]
-
-  Package['panko-api'] -> Service[$service_name]
-  Package['panko-api'] -> Service['panko-api']
-  Package['panko-api'] -> Class['panko::policy']
   package { 'panko-api':
     ensure => $package_ensure,
     name   => $::panko::params::api_package_name,
@@ -102,7 +96,6 @@ class panko::api (
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,
-      require    => Class['panko::db'],
       tag        => ['panko-service', 'panko-db-sync-service'],
     }
   } elsif $service_name == 'httpd' {

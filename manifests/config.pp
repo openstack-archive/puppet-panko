@@ -28,6 +28,8 @@ class panko::config (
   $panko_api_paste_ini = {},
 ) {
 
+  include ::panko::deps
+
   validate_hash($panko_config)
   validate_hash($panko_api_paste_ini)
 
