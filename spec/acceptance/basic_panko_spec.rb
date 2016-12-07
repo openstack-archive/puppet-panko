@@ -33,8 +33,8 @@ describe 'basic panko' do
           class { '::panko::api':
             enabled      => true,
             service_name => 'httpd',
+            sync_db      => true,
           }
-          class { '::panko::db::sync': }
           include ::apache
           class { '::panko::wsgi::apache':
             ssl => false,
