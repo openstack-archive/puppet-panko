@@ -53,6 +53,8 @@ class panko::db::mysql(
   $allowed_hosts = undef
 ) {
 
+  include ::panko::deps
+
   validate_string($password)
 
   ::openstacklib::db::mysql { 'panko':
@@ -65,5 +67,8 @@ class panko::db::mysql(
     allowed_hosts => $allowed_hosts,
   }
 
-  ::Openstacklib::Db::Mysql['panko'] ~> Exec<| title == 'panko-db-sync' |>
+  Anchor['panko::db::begin']
+  ~> Class['panko::db::mysql']
+  ~> Anchor['panko::db::end']
+
 }

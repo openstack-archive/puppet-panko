@@ -227,6 +227,8 @@ class panko::keystone::authtoken(
   $token_cache_time               = $::os_service_default,
 ) {
 
+  include ::panko::deps
+
   keystone::resource::authtoken { 'panko_config':
     username                       => $username,
     password                       => $password,

@@ -40,7 +40,7 @@ class panko::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  Class['panko::db::postgresql'] -> Service<| title == 'panko' |>
+  include ::panko::deps
 
   ::openstacklib::db::postgresql { 'panko':
     password_hash => postgresql_password($user, $password),
@@ -50,6 +50,8 @@ class panko::db::postgresql(
     privileges    => $privileges,
   }
 
-  ::Openstacklib::Db::Postgresql['panko'] ~> Exec<| title == 'panko-db-sync' |>
+  Anchor['panko::db::begin']
+  ~> Class['panko::db::postgresql']
+  ~> Anchor['panko::db::end']
 
 }

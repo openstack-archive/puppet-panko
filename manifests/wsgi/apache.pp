@@ -91,6 +91,7 @@ class panko::wsgi::apache (
   $priority      = '10',
 ) {
 
+  include ::panko::deps
   include ::panko::params
   include ::apache
   include ::apache::mod::wsgi

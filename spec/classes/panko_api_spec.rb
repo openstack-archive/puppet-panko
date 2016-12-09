@@ -22,6 +22,7 @@ describe 'panko::api' do
 
   shared_examples_for 'panko-api' do
 
+    it { is_expected.to contain_class('panko::deps') }
     it { is_expected.to contain_class('panko::params') }
     it { is_expected.to contain_class('panko::policy') }
 
@@ -54,10 +55,11 @@ describe 'panko::api' do
             :enable     => params[:enabled],
             :hasstatus  => true,
             :hasrestart => true,
-            :require    => 'Class[Panko::Db]',
             :tag        => ['panko-service', 'panko-db-sync-service'],
           )
         end
+        it { is_expected.to contain_service('panko-api').that_subscribes_to('Anchor[panko::service::begin]')}
+        it { is_expected.to contain_service('panko-api').that_notifies('Anchor[panko::service::end]')}
       end
     end
 

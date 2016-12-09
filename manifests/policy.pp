@@ -28,6 +28,8 @@ class panko::policy (
   $policy_path = '/etc/panko/policy.json',
 ) {
 
+  include ::panko::deps
+
   validate_hash($policies)
 
   Openstacklib::Policy::Base {
