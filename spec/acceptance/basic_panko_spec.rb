@@ -40,6 +40,9 @@ describe 'basic panko' do
             ssl => false,
           }
         }
+        default: {
+          fail("Unsupported osfamily (${::osfamily})")
+        }
       }
       EOS
 
