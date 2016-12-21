@@ -37,6 +37,13 @@ describe 'panko::wsgi::apache' do
         'docroot_group'               => 'panko',
         'ssl'                         => 'true',
         'wsgi_daemon_process'         => 'panko',
+        'wsgi_daemon_process_options' => {
+          'user'         => 'panko',
+          'group'        => 'panko',
+          'processes'    => 1,
+          'threads'      => '4',
+          'display-name' => 'panko_wsgi',
+        },
         'wsgi_process_group'          => 'panko',
         'wsgi_script_aliases'         => { '/' => "#{platform_params[:wsgi_script_path]}/app" },
         'require'                     => 'File[panko_wsgi]'
@@ -47,11 +54,12 @@ describe 'panko::wsgi::apache' do
     describe 'when overriding parameters using different ports' do
       let :params do
         {
-          :servername  => 'dummy.host',
-          :bind_host   => '10.42.51.1',
-          :port        => 12345,
-          :ssl         => false,
-          :workers     => 8,
+          :servername                => 'dummy.host',
+          :bind_host                 => '10.42.51.1',
+          :port                      => 12345,
+          :ssl                       => false,
+          :wsgi_process_display_name => 'panko',
+          :workers                   => 8,
         }
       end
 
@@ -64,6 +72,13 @@ describe 'panko::wsgi::apache' do
         'docroot_group'               => 'panko',
         'ssl'                         => 'false',
         'wsgi_daemon_process'         => 'panko',
+        'wsgi_daemon_process_options' => {
+            'user'         => 'panko',
+            'group'        => 'panko',
+            'processes'    => '8',
+            'threads'      => '4',
+            'display-name' => 'panko',
+        },
         'wsgi_process_group'          => 'panko',
         'wsgi_script_aliases'         => { '/' => "#{platform_params[:wsgi_script_path]}/app" },
         'require'                     => 'File[panko_wsgi]'

@@ -53,6 +53,10 @@
 #     (optional) The number of threads for the vhost.
 #     Defaults to $::os_workers
 #
+#   [*wsgi_process_display_name*]
+#     (optional) Name of the WSGI process display-name.
+#     Defaults to undef
+#
 #   [*ssl_cert*]
 #   [*ssl_key*]
 #   [*ssl_chain*]
@@ -74,21 +78,22 @@
 #   class { 'panko::wsgi::apache': }
 #
 class panko::wsgi::apache (
-  $servername    = $::fqdn,
-  $port          = 8779,
-  $bind_host     = undef,
-  $path          = '/',
-  $ssl           = true,
-  $workers       = 1,
-  $ssl_cert      = undef,
-  $ssl_key       = undef,
-  $ssl_chain     = undef,
-  $ssl_ca        = undef,
-  $ssl_crl_path  = undef,
-  $ssl_crl       = undef,
-  $ssl_certs_dir = undef,
-  $threads       = $::os_workers,
-  $priority      = '10',
+  $servername                 = $::fqdn,
+  $port                       = 8779,
+  $bind_host                  = undef,
+  $path                       = '/',
+  $ssl                        = true,
+  $workers                    = 1,
+  $ssl_cert                   = undef,
+  $ssl_key                    = undef,
+  $ssl_chain                  = undef,
+  $ssl_ca                     = undef,
+  $ssl_crl_path               = undef,
+  $ssl_crl                    = undef,
+  $ssl_certs_dir              = undef,
+  $wsgi_process_display_name  = undef,
+  $threads                    = $::os_workers,
+  $priority                   = '10',
 ) {
 
   include ::panko::deps
@@ -100,27 +105,28 @@ class panko::wsgi::apache (
   }
 
   ::openstacklib::wsgi::apache { 'panko_wsgi':
-    bind_host           => $bind_host,
-    bind_port           => $port,
-    group               => 'panko',
-    path                => $path,
-    priority            => $priority,
-    servername          => $servername,
-    ssl                 => $ssl,
-    ssl_ca              => $ssl_ca,
-    ssl_cert            => $ssl_cert,
-    ssl_certs_dir       => $ssl_certs_dir,
-    ssl_chain           => $ssl_chain,
-    ssl_crl             => $ssl_crl,
-    ssl_crl_path        => $ssl_crl_path,
-    ssl_key             => $ssl_key,
-    threads             => $threads,
-    user                => 'panko',
-    workers             => $workers,
-    wsgi_daemon_process => 'panko',
-    wsgi_process_group  => 'panko',
-    wsgi_script_dir     => $::panko::params::panko_wsgi_script_path,
-    wsgi_script_file    => 'app',
-    wsgi_script_source  => $::panko::params::panko_wsgi_script_source,
+    bind_host                 => $bind_host,
+    bind_port                 => $port,
+    group                     => 'panko',
+    path                      => $path,
+    priority                  => $priority,
+    servername                => $servername,
+    ssl                       => $ssl,
+    ssl_ca                    => $ssl_ca,
+    ssl_cert                  => $ssl_cert,
+    ssl_certs_dir             => $ssl_certs_dir,
+    ssl_chain                 => $ssl_chain,
+    ssl_crl                   => $ssl_crl,
+    ssl_crl_path              => $ssl_crl_path,
+    ssl_key                   => $ssl_key,
+    threads                   => $threads,
+    user                      => 'panko',
+    workers                   => $workers,
+    wsgi_daemon_process       => 'panko',
+    wsgi_process_display_name => $wsgi_process_display_name,
+    wsgi_process_group        => 'panko',
+    wsgi_script_dir           => $::panko::params::panko_wsgi_script_path,
+    wsgi_script_file          => 'app',
+    wsgi_script_source        => $::panko::params::panko_wsgi_script_source,
   }
 }
