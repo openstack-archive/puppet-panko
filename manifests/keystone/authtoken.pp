@@ -179,10 +179,6 @@
 #  reduce performance. Only valid for PKI tokens. Integer value
 #  Defaults to $::os_service_default.
 #
-# [*signing_dir*]
-#  (Optional) Directory used to cache files related to PKI tokens.
-#  Defaults to $::os_service_default.
-#
 # [*token_cache_time*]
 #  (Optional) In order to prevent excessive effort spent validating tokens,
 #  the middleware caches previously-seen tokens for a configurable duration
@@ -223,7 +219,6 @@ class panko::keystone::authtoken(
   $memcached_servers              = $::os_service_default,
   $region_name                    = $::os_service_default,
   $revocation_cache_time          = $::os_service_default,
-  $signing_dir                    = $::os_service_default,
   $token_cache_time               = $::os_service_default,
 ) {
 
@@ -263,7 +258,6 @@ class panko::keystone::authtoken(
     memcached_servers              => $memcached_servers,
     region_name                    => $region_name,
     revocation_cache_time          => $revocation_cache_time,
-    signing_dir                    => $signing_dir,
     token_cache_time               => $token_cache_time,
   }
 }
