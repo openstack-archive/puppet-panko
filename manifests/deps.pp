@@ -34,6 +34,10 @@ class panko::deps {
   -> Panko_api_paste_ini<||>
   ~> Anchor['panko::config::end']
 
+  # all db settings should be applied and all packages should be installed
+  # before dbsync starts
+  Oslo::Db<||> -> Anchor['panko::dbsync::begin']
+
   # Installation or config changes will always restart services.
   Anchor['panko::install::end'] ~> Anchor['panko::service::begin']
   Anchor['panko::config::end']  ~> Anchor['panko::service::begin']
