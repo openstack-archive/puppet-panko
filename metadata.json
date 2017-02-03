@@ -1,6 +1,6 @@
 {
   "name": "openstack-panko",
-  "version": "10.2.0",
+  "version": "10.3.0",
   "author": "OpenStack Contributors",
   "summary": "Puppet module for OpenStack Panko",
   "license": "Apache-2.0",
@@ -46,7 +46,6 @@
       ]
     }
   ],
-
   "dependencies": [
     {
       "name": "puppetlabs/inifile",
@@ -58,15 +57,15 @@
     },
     {
       "name": "openstack/keystone",
-      "version_requirement": ">=10.2.0 <11.0.0"
+      "version_requirement": ">=10.3.0 <11.0.0"
     },
     {
       "name": "openstack/openstacklib",
-      "version_requirement": ">=10.2.0 <11.0.0"
+      "version_requirement": ">=10.3.0 <11.0.0"
     },
     {
       "name": "openstack/oslo",
-      "version_requirement": ">=10.2.0 <11.0.0"
+      "version_requirement": ">=10.3.0 <11.0.0"
     }
   ]
 }
