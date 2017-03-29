@@ -61,7 +61,7 @@ describe 'panko::logging' do
       is_expected.to contain_panko_config('DEFAULT/use_stderr').with(:value => '<SERVICE DEFAULT>')
       is_expected.to contain_panko_config('DEFAULT/syslog_log_facility').with(:value => '<SERVICE DEFAULT>')
       is_expected.to contain_panko_config('DEFAULT/log_dir').with(:value => '/var/log/panko')
-      is_expected.to contain_panko_config('DEFAULT/log_file').with(:value => '/var/log/panko/panko.log')
+      is_expected.to contain_panko_config('DEFAULT/log_file').with(:value => '<SERVICE DEFAULT>')
       is_expected.to contain_panko_config('DEFAULT/debug').with(:value => '<SERVICE DEFAULT>')
     end
   end
