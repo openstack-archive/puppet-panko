@@ -54,6 +54,23 @@
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $::os_service_default.
 #
+# [*max_retries*]
+#   (Optional) Maximum number of connection retries during startup.
+#   Set to -1 to specify an infinite retry count. (integer value)
+#   Defaults to $::os_service_default.
+#
+# [*retry_interval*]
+#   (Optional) Interval between retries of connection.
+#   Defaults to $::os_service_default.
+#
+# [*es_ssl_enabled*]
+#   (Optional) Enable HTTPS connection in the Elasticsearch connection.
+#   Defaults to $::os_service_default.
+#
+# [*es_index_name*]
+#   (Optional) The name of the index in Elasticsearch (string value).
+#   Defaults to $::os_service_default.
+#
 class panko::api (
   $manage_service               = true,
   $enabled                      = true,
@@ -66,6 +83,10 @@ class panko::api (
   $sync_db                      = false,
   $auth_strategy                = 'keystone',
   $enable_proxy_headers_parsing = $::os_service_default,
+  $max_retries                  = $::os_service_default,
+  $retry_interval               = $::os_service_default,
+  $es_ssl_enabled               = $::os_service_default,
+  $es_index_name                = $::os_service_default,
 ) inherits panko::params {
 
   include ::panko::deps
@@ -117,10 +138,14 @@ running as a standalone service, or httpd for being run by a httpd server")
   }
 
   panko_config {
-    'api/host':      value => $host;
-    'api/port':      value => $port;
-    'api/workers':   value => $workers;
-    'api/max_limit': value => $max_limit;
+    'api/host':               value => $host;
+    'api/port':               value => $port;
+    'api/workers':            value => $workers;
+    'api/max_limit':          value => $max_limit;
+    'storage/max_retries':    value => $max_retries;
+    'storage/retry_interval': value => $retry_interval;
+    'storage/es_ssl_enabled': value => $es_ssl_enabled;
+    'storage/es_index_name':  value => $es_index_name;
   }
 
   if $auth_strategy == 'keystone' {

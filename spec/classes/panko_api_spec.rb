@@ -17,6 +17,10 @@ describe 'panko::api' do
       :port              => '8779',
       :max_limit         => '1000',
       :host              => '0.0.0.0',
+      :max_retries       => '10',
+      :retry_interval    => '20',
+      :es_ssl_enabled    => true,
+      :es_index_name     => 'panko',
     }
   end
 
@@ -39,6 +43,10 @@ describe 'panko::api' do
       is_expected.to contain_panko_config('api/port').with_value( params[:port] )
       is_expected.to contain_panko_config('api/max_limit').with_value( params[:max_limit] )
       is_expected.to contain_panko_config('api/workers').with_value('2')
+      is_expected.to contain_panko_config('storage/max_retries').with_value(params[:max_retries])
+      is_expected.to contain_panko_config('storage/retry_interval').with_value(params[:retry_interval])
+      is_expected.to contain_panko_config('storage/es_ssl_enabled').with_value(params[:es_ssl_enabled])
+      is_expected.to contain_panko_config('storage/es_index_name').with_value(params[:es_index_name])
       is_expected.to contain_panko_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
     end
 
@@ -108,8 +116,8 @@ describe 'panko::api' do
          include ::panko::db
          class { 'panko': }
          class {'panko::keystone::authtoken':
-	   password => 'password',
-	 }"
+           password => 'password',
+         }"
       end
 
       it 'configures panko-api service with Apache' do
