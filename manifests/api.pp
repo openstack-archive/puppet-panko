@@ -68,6 +68,8 @@ class panko::api (
   $enable_proxy_headers_parsing = $::os_service_default,
 ) inherits panko::params {
 
+  warning('This Class is deprecated and will be removed in future releases.')
+
   include ::panko::deps
   include ::panko::policy
 
