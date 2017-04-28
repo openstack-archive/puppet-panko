@@ -89,6 +89,8 @@ class panko::api (
   $es_index_name                = $::os_service_default,
 ) inherits panko::params {
 
+  warning('This Class is deprecated and will be removed in future releases.')
+
   include ::panko::deps
   include ::panko::policy
 
