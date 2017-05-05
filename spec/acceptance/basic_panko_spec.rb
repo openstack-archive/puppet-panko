@@ -23,6 +23,9 @@ describe 'basic panko' do
           warning('Panko is not yet packaged on Ubuntu systems.')
         }
         'RedHat': {
+          class { '::panko::logging':
+            debug => true,
+          }
           include ::panko
           class { '::panko::db':
             database_connection => 'mysql+pymysql://panko:a_big_secret@127.0.0.1/panko?charset=utf8',
