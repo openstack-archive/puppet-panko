@@ -19,7 +19,9 @@ describe 'panko::policy' do
         :key   => 'context_is_admin',
         :value => 'foo:bar'
       })
-      is_expected.to contain_panko_config('oslo_policy/policy_file').with_value('/etc/panko/policy.json')
+      is_expected.to contain_oslo__policy('panko_config').with(
+        :policy_file => '/etc/panko/policy.json',
+      )
     end
   end
 
