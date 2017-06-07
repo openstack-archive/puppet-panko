@@ -56,7 +56,7 @@ describe 'basic panko' do
     end
 
     if os[:family].casecmp('RedHat') == 0
-      describe port(8779) do
+      describe port(8977) do
         it { is_expected.to be_listening }
       end
     end

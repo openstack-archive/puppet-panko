@@ -42,22 +42,22 @@
 #   Default to 'OpenStack Event Service'
 #
 # [*public_url*]
-#   (optional) The endpoint's public url. (Defaults to 'http://127.0.0.1:8779')
+#   (optional) The endpoint's public url. (Defaults to 'http://127.0.0.1:8977')
 #   This url should *not* contain any trailing '/'.
 #
 # [*admin_url*]
-#   (optional) The endpoint's admin url. (Defaults to 'http://127.0.0.1:8779')
+#   (optional) The endpoint's admin url. (Defaults to 'http://127.0.0.1:8977')
 #   This url should *not* contain any trailing '/'.
 #
 # [*internal_url*]
-#   (optional) The endpoint's internal url. (Defaults to 'http://127.0.0.1:8779')
+#   (optional) The endpoint's internal url. (Defaults to 'http://127.0.0.1:8977')
 #
 # === Examples:
 #
 #  class { 'panko::keystone::auth':
-#    public_url   => 'https://10.0.0.10:8779',
-#    internal_url => 'https://10.0.0.11:8779',
-#    admin_url    => 'https://10.0.0.11:8779',
+#    public_url   => 'https://10.0.0.10:8977',
+#    internal_url => 'https://10.0.0.11:8977',
+#    admin_url    => 'https://10.0.0.11:8977',
 #  }
 #
 
@@ -73,9 +73,9 @@ class panko::keystone::auth (
   $service_description = 'OpenStack Event Service',
   $service_type        = 'event',
   $region              = 'RegionOne',
-  $public_url          = 'http://127.0.0.1:8779',
-  $admin_url           = 'http://127.0.0.1:8779',
-  $internal_url        = 'http://127.0.0.1:8779',
+  $public_url          = 'http://127.0.0.1:8977',
+  $admin_url           = 'http://127.0.0.1:8977',
+  $internal_url        = 'http://127.0.0.1:8977',
 ) {
 
   include ::panko::deps

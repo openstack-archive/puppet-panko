@@ -1,0 +1,3 @@
+---
+fixes:
+  - Set the default api port to 8977.

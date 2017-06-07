@@ -16,7 +16,7 @@
 #
 # [*port*]
 #   (optional) The panko api port.
-#   Defaults to 8041
+#   Defaults to 8977
 #
 # [*workers*]
 #   (optional) Number of workers for Panko API server.
@@ -76,7 +76,7 @@ class panko::api (
   $enabled                      = true,
   $package_ensure               = 'present',
   $host                         = '0.0.0.0',
-  $port                         = '8779',
+  $port                         = '8977',
   $workers                      = $::os_workers,
   $max_limit                    = 1000,
   $service_name                 = $::panko::params::api_service_name,

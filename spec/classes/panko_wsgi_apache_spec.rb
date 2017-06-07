@@ -31,7 +31,7 @@ describe 'panko::wsgi::apache' do
       it { is_expected.to contain_apache__vhost('panko_wsgi').with(
         'servername'                  => 'some.host.tld',
         'ip'                          => nil,
-        'port'                        => '8779',
+        'port'                        => '8977',
         'docroot'                     => "#{platform_params[:wsgi_script_path]}",
         'docroot_owner'               => 'panko',
         'docroot_group'               => 'panko',

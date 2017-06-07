@@ -27,7 +27,7 @@
 #
 #   [*port*]
 #     The port.
-#     Optional. Defaults to 8779
+#     Optional. Defaults to 8977
 #
 #   [*bind_host*]
 #     The host/ip address Apache will listen on.
@@ -79,7 +79,7 @@
 #
 class panko::wsgi::apache (
   $servername                 = $::fqdn,
-  $port                       = 8779,
+  $port                       = 8977,
   $bind_host                  = undef,
   $path                       = '/',
   $ssl                        = true,

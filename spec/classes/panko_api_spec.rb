@@ -14,7 +14,7 @@ describe 'panko::api' do
     { :enabled           => true,
       :manage_service    => true,
       :package_ensure    => 'latest',
-      :port              => '8779',
+      :port              => '8977',
       :max_limit         => '1000',
       :host              => '0.0.0.0',
       :max_retries       => '10',

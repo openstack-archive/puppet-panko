@@ -29,9 +29,9 @@ describe 'panko::keystone::auth' do
 
       it { is_expected.to contain_keystone_endpoint('RegionOne/panko::event').with(
         :ensure       => 'present',
-        :public_url   => 'http://127.0.0.1:8779',
-        :admin_url    => 'http://127.0.0.1:8779',
-        :internal_url => 'http://127.0.0.1:8779',
+        :public_url   => 'http://127.0.0.1:8977',
+        :admin_url    => 'http://127.0.0.1:8977',
+        :internal_url => 'http://127.0.0.1:8977',
       ) }
     end
 
