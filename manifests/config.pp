@@ -18,7 +18,7 @@
 #       value: barValue
 #
 # [*panko_api_paste_ini*]
-#   (optional) Allow configuration of /etc/panko/api-paste.ini options.
+#   (optional) Allow configuration of /etc/panko/api_paste.ini options.
 #
 #   NOTE: The configuration MUST NOT be already handled by this module
 #   or Puppet catalog compilation will fail with duplicate resources.

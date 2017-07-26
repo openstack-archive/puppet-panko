@@ -16,7 +16,7 @@ Puppet::Type.type(:panko_api_paste_ini).provide(
   end
 
   def self.file_path
-    '/etc/panko/api-paste.ini'
+    '/etc/panko/api_paste.ini'
   end
 
   # added for backwards compatibility with older versions of inifile
