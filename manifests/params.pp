@@ -2,6 +2,7 @@
 #
 class panko::params {
   include ::openstacklib::defaults
+  $client_package_name = 'python-pankoclient'
 
   case $::osfamily {
     'RedHat': {
