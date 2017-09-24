@@ -34,6 +34,9 @@ describe 'panko::wsgi::apache' do
           :ssl                       => false,
           :wsgi_process_display_name => 'panko',
           :workers                   => 8,
+          :custom_wsgi_process_options => {
+            'python_path' => '/my/python/admin/path',
+          },
         }
       end
       it { is_expected.to contain_class('panko::params') }
@@ -56,6 +59,9 @@ describe 'panko::wsgi::apache' do
         :wsgi_script_dir           => platform_params[:wsgi_script_path],
         :wsgi_script_file          => 'app',
         :wsgi_script_source        => platform_params[:wsgi_script_source],
+        :custom_wsgi_process_options => {
+          'python_path'  => '/my/python/admin/path',
+        },
       )}
     end
   end

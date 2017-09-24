@@ -67,6 +67,14 @@
 #     apache::vhost ssl parameters.
 #     Optional. Default to apache::vhost 'ssl_*' defaults.
 #
+#   [*custom_wsgi_process_options*]
+#     (optional) gives you the oportunity to add custom process options or to
+#     overwrite the default options for the WSGI main process.
+#     eg. to use a virtual python environment for the WSGI process
+#     you could set it to:
+#     { python-path => '/my/python/virtualenv' }
+#     Defaults to {}
+#
 # == Dependencies
 #
 #   requires Class['apache'] & Class['panko']
@@ -78,22 +86,23 @@
 #   class { 'panko::wsgi::apache': }
 #
 class panko::wsgi::apache (
-  $servername                 = $::fqdn,
-  $port                       = 8977,
-  $bind_host                  = undef,
-  $path                       = '/',
-  $ssl                        = true,
-  $workers                    = 1,
-  $ssl_cert                   = undef,
-  $ssl_key                    = undef,
-  $ssl_chain                  = undef,
-  $ssl_ca                     = undef,
-  $ssl_crl_path               = undef,
-  $ssl_crl                    = undef,
-  $ssl_certs_dir              = undef,
-  $wsgi_process_display_name  = undef,
-  $threads                    = $::os_workers,
-  $priority                   = '10',
+  $servername                  = $::fqdn,
+  $port                        = 8977,
+  $bind_host                   = undef,
+  $path                        = '/',
+  $ssl                         = true,
+  $workers                     = 1,
+  $ssl_cert                    = undef,
+  $ssl_key                     = undef,
+  $ssl_chain                   = undef,
+  $ssl_ca                      = undef,
+  $ssl_crl_path                = undef,
+  $ssl_crl                     = undef,
+  $ssl_certs_dir               = undef,
+  $wsgi_process_display_name   = undef,
+  $threads                     = $::os_workers,
+  $priority                    = '10',
+  $custom_wsgi_process_options = {},
 ) {
 
   include ::panko::deps
@@ -105,28 +114,29 @@ class panko::wsgi::apache (
   }
 
   ::openstacklib::wsgi::apache { 'panko_wsgi':
-    bind_host                 => $bind_host,
-    bind_port                 => $port,
-    group                     => 'panko',
-    path                      => $path,
-    priority                  => $priority,
-    servername                => $servername,
-    ssl                       => $ssl,
-    ssl_ca                    => $ssl_ca,
-    ssl_cert                  => $ssl_cert,
-    ssl_certs_dir             => $ssl_certs_dir,
-    ssl_chain                 => $ssl_chain,
-    ssl_crl                   => $ssl_crl,
-    ssl_crl_path              => $ssl_crl_path,
-    ssl_key                   => $ssl_key,
-    threads                   => $threads,
-    user                      => 'panko',
-    workers                   => $workers,
-    wsgi_daemon_process       => 'panko',
-    wsgi_process_display_name => $wsgi_process_display_name,
-    wsgi_process_group        => 'panko',
-    wsgi_script_dir           => $::panko::params::panko_wsgi_script_path,
-    wsgi_script_file          => 'app',
-    wsgi_script_source        => $::panko::params::panko_wsgi_script_source,
+    bind_host                   => $bind_host,
+    bind_port                   => $port,
+    group                       => 'panko',
+    path                        => $path,
+    priority                    => $priority,
+    servername                  => $servername,
+    ssl                         => $ssl,
+    ssl_ca                      => $ssl_ca,
+    ssl_cert                    => $ssl_cert,
+    ssl_certs_dir               => $ssl_certs_dir,
+    ssl_chain                   => $ssl_chain,
+    ssl_crl                     => $ssl_crl,
+    ssl_crl_path                => $ssl_crl_path,
+    ssl_key                     => $ssl_key,
+    threads                     => $threads,
+    user                        => 'panko',
+    workers                     => $workers,
+    wsgi_daemon_process         => 'panko',
+    wsgi_process_display_name   => $wsgi_process_display_name,
+    wsgi_process_group          => 'panko',
+    wsgi_script_dir             => $::panko::params::panko_wsgi_script_path,
+    wsgi_script_file            => 'app',
+    wsgi_script_source          => $::panko::params::panko_wsgi_script_source,
+    custom_wsgi_process_options => $custom_wsgi_process_options,
   }
 }
