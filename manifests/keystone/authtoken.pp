@@ -21,11 +21,11 @@
 #
 # [*user_domain_name*]
 #   (Optional) Name of domain for $username
-#   Defaults to $::os_service_default
+#   Defaults to 'Default'
 #
 # [*project_domain_name*]
 #   (Optional) Name of domain for $project_name
-#   Defaults to $::os_service_default
+#   Defaults to 'Default'
 #
 # [*insecure*]
 #  (Optional) If true, explicitly allow TLS without checking server cert
