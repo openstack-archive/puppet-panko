@@ -52,7 +52,7 @@ class panko::db (
   include ::panko::deps
 
   validate_re($database_connection,
-    '^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
+    '^(sqlite|mysql(\+pymysql)?|postgresql(\+psycopg2)?):\/\/(\S+:\S+@\S+\/\S+)?')
 
   oslo::db { 'panko_config':
     connection     => $database_connection,
