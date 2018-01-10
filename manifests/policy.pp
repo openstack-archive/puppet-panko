@@ -29,11 +29,14 @@ class panko::policy (
 ) {
 
   include ::panko::deps
+  include ::panko::params
 
   validate_hash($policies)
 
   Openstacklib::Policy::Base {
-    file_path => $policy_path,
+    file_path  => $policy_path,
+    file_user  => 'root',
+    file_group => $::panko::params::group,
   }
 
   create_resources('openstacklib::policy::base', $policies)
