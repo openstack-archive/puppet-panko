@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Add event_time_to_live to panko config so user can tweak and expire data
+    instead of keeping for ever.

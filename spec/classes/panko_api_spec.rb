@@ -11,16 +11,17 @@ describe 'panko::api' do
   end
 
   let :params do
-    { :enabled           => true,
-      :manage_service    => true,
-      :package_ensure    => 'latest',
-      :port              => '8977',
-      :max_limit         => '1000',
-      :host              => '0.0.0.0',
-      :max_retries       => '10',
-      :retry_interval    => '20',
-      :es_ssl_enabled    => true,
-      :es_index_name     => 'panko',
+    { :enabled            => true,
+      :manage_service     => true,
+      :package_ensure     => 'latest',
+      :port               => '8977',
+      :max_limit          => '1000',
+      :host               => '0.0.0.0',
+      :max_retries        => '10',
+      :retry_interval     => '20',
+      :es_ssl_enabled     => true,
+      :es_index_name      => 'panko',
+      :event_time_to_live => '3600',
     }
   end
 
@@ -48,6 +49,7 @@ describe 'panko::api' do
       is_expected.to contain_panko_config('storage/es_ssl_enabled').with_value(params[:es_ssl_enabled])
       is_expected.to contain_panko_config('storage/es_index_name').with_value(params[:es_index_name])
       is_expected.to contain_panko_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_panko_config('database/event_time_to_live').with_value( params[:event_time_to_live] )
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
