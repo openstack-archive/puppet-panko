@@ -4,6 +4,7 @@ class panko::params {
   include ::openstacklib::defaults
   $client_package_name = 'python-pankoclient'
   $group               = 'panko'
+  $expirer_command     = 'panko-expirer'
 
   case $::osfamily {
     'RedHat': {
