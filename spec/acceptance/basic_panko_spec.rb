@@ -17,38 +17,26 @@ describe 'basic panko' do
       class { '::panko::keystone::auth':
         password => 'a_big_secret',
       }
-
-      case $::osfamily {
-        'Debian': {
-          warning('Panko is not yet packaged on Ubuntu systems.')
-        }
-        'RedHat': {
-          class { '::panko::logging':
-            debug => true,
-          }
-          include ::panko
-          class { '::panko::db':
-            database_connection => 'mysql+pymysql://panko:a_big_secret@127.0.0.1/panko?charset=utf8',
-          }
-          class { '::panko::keystone::authtoken':
-            password => 'a_big_secret',
-          }
-          class { '::panko::api':
-            enabled      => true,
-            service_name => 'httpd',
-            sync_db      => true,
-          }
-          include ::apache
-          class { '::panko::wsgi::apache':
-            ssl => false,
-          }
-        }
-        default: {
-          fail("Unsupported osfamily (${::osfamily})")
-        }
+      class { '::panko::logging':
+        debug => true,
+      }
+      include ::panko
+      class { '::panko::db':
+        database_connection => 'mysql+pymysql://panko:a_big_secret@127.0.0.1/panko?charset=utf8',
+      }
+      class { '::panko::keystone::authtoken':
+        password => 'a_big_secret',
+      }
+      class { '::panko::api':
+        enabled      => true,
+        service_name => 'httpd',
+        sync_db      => true,
+      }
+      include ::apache
+      class { '::panko::wsgi::apache':
+        ssl => false,
       }
       EOS
-
 
       # Run it twice and test for idempotency
       apply_manifest(pp, :catch_failures => true)
