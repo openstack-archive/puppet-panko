@@ -19,7 +19,7 @@ class panko::params {
       $api_package_name         = 'panko-api'
       $api_service_name         = 'panko-api'
       $panko_wsgi_script_path   = '/usr/lib/cgi-bin/panko'
-      $panko_wsgi_script_source = '/usr/share/panko-common/app.wsgi'
+      $panko_wsgi_script_source = '/usr/lib/python2.7/dist-packages/panko/api/app.wsgi'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem")
