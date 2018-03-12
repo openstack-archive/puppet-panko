@@ -28,6 +28,7 @@ class panko::db::sync(
       Anchor['panko::dbsync::begin']
     ],
     notify      => Anchor['panko::dbsync::end'],
+    tag         => 'openstack-db',
   }
 
 }
