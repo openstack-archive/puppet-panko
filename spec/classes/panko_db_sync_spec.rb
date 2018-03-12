@@ -19,6 +19,7 @@ describe 'panko::db::sync' do
                          'Anchor[panko::config::end]',
                          'Anchor[panko::dbsync::begin]'],
         :notify      => 'Anchor[panko::dbsync::end]',
+        :tag         => 'openstack-db',
       )
     end
 
