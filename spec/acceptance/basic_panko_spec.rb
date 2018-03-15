@@ -10,32 +10,7 @@ describe 'basic panko' do
       include ::openstack_integration::repos
       include ::openstack_integration::mysql
       include ::openstack_integration::keystone
-
-      class { '::panko::db::mysql':
-        password => 'a_big_secret',
-      }
-      class { '::panko::keystone::auth':
-        password => 'a_big_secret',
-      }
-      class { '::panko::logging':
-        debug => true,
-      }
-      include ::panko
-      class { '::panko::db':
-        database_connection => 'mysql+pymysql://panko:a_big_secret@127.0.0.1/panko?charset=utf8',
-      }
-      class { '::panko::keystone::authtoken':
-        password => 'a_big_secret',
-      }
-      class { '::panko::api':
-        enabled      => true,
-        service_name => 'httpd',
-        sync_db      => true,
-      }
-      include ::apache
-      class { '::panko::wsgi::apache':
-        ssl => false,
-      }
+      include ::openstack_integration::panko
       EOS
 
       # Run it twice and test for idempotency
