@@ -21,7 +21,7 @@ describe 'panko::wsgi::apache' do
         :wsgi_process_group  => 'panko',
         :wsgi_script_dir     => platform_params[:wsgi_script_path],
         :wsgi_script_file    => 'app',
-        :wsgi_script_source  => platform_params[:wsgi_script_source],
+        :wsgi_script_source  => '/usr/bin/panko-api',
         :access_log_file     => false,
         :access_log_format   => false,
       )}
@@ -63,7 +63,7 @@ describe 'panko::wsgi::apache' do
         :wsgi_process_group        => 'panko',
         :wsgi_script_dir           => platform_params[:wsgi_script_path],
         :wsgi_script_file          => 'app',
-        :wsgi_script_source        => platform_params[:wsgi_script_source],
+        :wsgi_script_source        => '/usr/bin/panko-api',
         :custom_wsgi_process_options => {
           'python_path'  => '/my/python/admin/path',
         },
@@ -93,14 +93,12 @@ describe 'panko::wsgi::apache' do
             :httpd_service_name => 'apache2',
             :httpd_ports_file   => '/etc/apache2/ports.conf',
             :wsgi_script_path   => '/usr/lib/cgi-bin/panko',
-            :wsgi_script_source => '/usr/lib/python2.7/dist-packages/panko/api/app.wsgi'
           }
         when 'RedHat'
           {
             :httpd_service_name => 'httpd',
             :httpd_ports_file   => '/etc/httpd/conf/ports.conf',
             :wsgi_script_path   => '/var/www/cgi-bin/panko',
-            :wsgi_script_source => '/usr/lib/python2.7/site-packages/panko/api/app.wsgi'
           }
         end
       end

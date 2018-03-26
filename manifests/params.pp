@@ -12,14 +12,14 @@ class panko::params {
       $api_package_name         = 'openstack-panko-api'
       $api_service_name         = 'openstack-panko-api'
       $panko_wsgi_script_path   = '/var/www/cgi-bin/panko'
-      $panko_wsgi_script_source = '/usr/lib/python2.7/site-packages/panko/api/app.wsgi'
+      $panko_wsgi_script_source = '/usr/bin/panko-api'
     }
     'Debian': {
       $common_package_name      = 'panko-common'
       $api_package_name         = 'panko-api'
       $api_service_name         = 'panko-api'
       $panko_wsgi_script_path   = '/usr/lib/cgi-bin/panko'
-      $panko_wsgi_script_source = '/usr/lib/python2.7/dist-packages/panko/api/app.wsgi'
+      $panko_wsgi_script_source = '/usr/bin/panko-api'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem")
