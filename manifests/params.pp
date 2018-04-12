@@ -2,7 +2,14 @@
 #
 class panko::params {
   include ::openstacklib::defaults
-  $client_package_name = 'python-pankoclient'
+
+  if ($::os_package_type == 'debian') {
+    $pyvers = '3'
+  } else {
+    $pyvers = ''
+  }
+
+  $client_package_name = "python${pyvers}-pankoclient"
   $group               = 'panko'
   $expirer_command     = 'panko-expirer'
 
