@@ -24,8 +24,17 @@ describe 'panko::client' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      let :platform_params do
-        { :client_package_name => 'python-pankoclient' }
+      let(:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          if facts[:os_package_type] == 'debian'
+            { :client_package_name => 'python3-pankoclient' }
+          else
+            { :client_package_name => 'python-pankoclient' }
+          end
+        when 'RedHat'
+          { :client_package_name => 'python-pankoclient' }
+        end
       end
 
       it_behaves_like 'panko client'
