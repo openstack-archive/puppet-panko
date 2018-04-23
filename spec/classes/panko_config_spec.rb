@@ -17,6 +17,8 @@ describe 'panko::config' do
   end
 
   shared_examples_for 'panko-config' do
+    it { is_expected.to contain_class('panko::deps') }
+
     it 'configures arbitrary panko configurations' do
       is_expected.to contain_panko_config('DEFAULT/foo').with_value('fooValue')
       is_expected.to contain_panko_config('DEFAULT/bar').with_value('barValue')
