@@ -33,7 +33,7 @@ Setup
 
 **What the panko module affects**
 
-* [Panko](https://wiki.openstack.org/wiki/Panko), the events service for OpenStack.
+* [Panko](https://docs.openstack.org/panko/latest/), the events service for OpenStack.
 
 ### Installing panko
 
