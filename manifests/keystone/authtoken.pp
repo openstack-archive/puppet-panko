@@ -13,7 +13,7 @@
 #
 # [*auth_url*]
 #   (Optional) The URL to use for authentication.
-#   Defaults to 'http://localhost:35357'.
+#   Defaults to 'http://localhost:5000'.
 #
 # [*project_name*]
 #   (Optional) Service project name
@@ -191,7 +191,7 @@
 class panko::keystone::authtoken(
   $password,
   $username                       = 'panko',
-  $auth_url                       = 'http://localhost:35357',
+  $auth_url                       = 'http://localhost:5000',
   $project_name                   = 'services',
   $user_domain_name               = 'Default',
   $project_domain_name            = 'Default',
