@@ -88,6 +88,6 @@ Contributors
 * https://github.com/openstack/puppet-panko/graphs/contributors
 
 Repository
--------------
+----------
 
 * https://git.openstack.org/cgit/openstack/puppet-panko
