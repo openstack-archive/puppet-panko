@@ -79,13 +79,15 @@ Developer documentation for the entire puppet-openstack project.
 
 * https://docs.openstack.org/puppet-openstack-guide/latest/
 
-Release notes for the project can be found at:
-  https://docs.openstack.org/releasenotes/puppet-panko
-
 Contributors
 ------------
 
 * https://github.com/openstack/puppet-panko/graphs/contributors
+
+Release Notes
+-------------
+
+* https://docs.openstack.org/releasenotes/puppet-panko
 
 Repository
 ----------
