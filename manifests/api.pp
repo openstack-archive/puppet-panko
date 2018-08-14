@@ -136,7 +136,9 @@ class panko::api (
       tag    => ['panko-service', 'panko-db-sync-service'],
     }
     Class['panko::db'] -> Service[$service_name]
-    Service <| title == 'httpd' |> { tag +> 'panko-db-sync-service' }
+    Service <| title == 'httpd' |> {
+      tag +> ['panko-service', 'panko-db-sync-service']
+    }
 
     # we need to make sure panko-api/eventlet is stopped before trying to start apache
     Service['panko-api'] -> Service[$service_name]
