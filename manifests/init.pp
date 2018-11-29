@@ -19,7 +19,6 @@ class panko (
 ) inherits panko::params {
 
   include ::panko::deps
-  include ::panko::logging
 
   package { 'panko':
     ensure => $package_ensure,
