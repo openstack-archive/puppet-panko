@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    panko::logging is now not included in init class by default.

@@ -5,7 +5,6 @@ describe 'panko' do
   shared_examples 'panko' do
 
     it { is_expected.to contain_class('panko::deps') }
-    it { is_expected.to contain_class('panko::logging') }
 
     context 'with default parameters' do
       let :params do
