@@ -5,52 +5,62 @@
 # === Parameters
 #
 # [*password*]
-#   (required) Password for panko user.
+#   (Required) Password for panko user.
 #
 # [*auth_name*]
-#   Username for panko service. Defaults to 'panko'.
+#   (Optional) Username for panko service.
+#   Defaults to 'panko'.
 #
 # [*email*]
-#   Email for panko user. Defaults to 'panko@localhost'.
+#   (Optional) Email for panko user.
+#   Defaults to 'panko@localhost'.
 #
 # [*tenant*]
-#   Tenant for panko user. Defaults to 'services'.
+#   (Optional) Tenant for panko user.
+#   Defaults to 'services'.
 #
 # [*configure_endpoint*]
-#   Should panko endpoint be configured? Defaults to 'true'.
+#   (Optional) Should panko endpoint be configured?
+#   Defaults to true.
 #
 # [*configure_user*]
 #   (Optional) Should the service user be configured?
-#   Defaults to 'true'.
+#   Defaults to true.
 #
 # [*configure_user_role*]
 #   (Optional) Should the admin role be configured for the service user?
-#   Defaults to 'true'.
+#   Defaults to true.
 #
 # [*service_type*]
-#   Type of service. Defaults to 'key-manager'.
+#   (Optional) Type of service.
+#   Defaults to 'key-manager'.
 #
 # [*region*]
-#   Region for endpoint. Defaults to 'RegionOne'.
+#   (Optional) Region for endpoint.
+#   Defaults to 'RegionOne'.
 #
 # [*service_name*]
-#   (optional) Name of the service.
+#   (Optional) Name of the service.
 #   Defaults to the value of 'panko'.
 #
 # [*service_description*]
-#   (optional) Description of the service.
+#   (Optional) Description of the service.
 #   Default to 'OpenStack Event Service'
 #
 # [*public_url*]
-#   (optional) The endpoint's public url. (Defaults to 'http://127.0.0.1:8977')
+#   (0ptional) The endpoint's public url.
 #   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8977'
 #
 # [*admin_url*]
-#   (optional) The endpoint's admin url. (Defaults to 'http://127.0.0.1:8977')
+#   (Optional) The endpoint's admin url.
 #   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8977'
 #
 # [*internal_url*]
-#   (optional) The endpoint's internal url. (Defaults to 'http://127.0.0.1:8977')
+#   (Optional) The endpoint's internal url.
+#   This url should *not* contain any trailing '/'.
+#   Defaults to 'http://127.0.0.1:8977'
 #
 # === Examples:
 #
@@ -60,7 +70,6 @@
 #    admin_url    => 'https://10.0.0.11:8977',
 #  }
 #
-
 class panko::keystone::auth (
   $password,
   $auth_name           = 'panko',
