@@ -4,12 +4,12 @@
 # == Parameters
 #
 # [*extra_params*]
-#   (optional) String of extra command line parameters to append
+#   (Optional) String of extra command line parameters to append
 #   to the panko-dbsync command.
 #   Defaults to undef
 #
 class panko::db::sync(
-  $extra_params  = undef,
+  $extra_params = undef,
 ) {
 
   include ::panko::deps
