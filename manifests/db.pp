@@ -56,8 +56,8 @@ class panko::db (
 
   include ::panko::deps
 
-  validate_re($database_connection,
-    '^(sqlite|mysql(\+pymysql)?|postgresql(\+psycopg2)?):\/\/(\S+:\S+@\S+\/\S+)?')
+  validate_legacy(Oslo::Dbconn, 'validate_re', $database_connection,
+    ['^(sqlite|mysql(\+pymysql)?|postgresql(\+psycopg2)?):\/\/(\S+:\S+@\S+\/\S+)?'])
 
   oslo::db { 'panko_config':
     connection     => $database_connection,

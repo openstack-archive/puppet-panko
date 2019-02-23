@@ -31,7 +31,7 @@ class panko::policy (
   include ::panko::deps
   include ::panko::params
 
-  validate_hash($policies)
+  validate_legacy(Hash, 'validate_hash', $policies)
 
   Openstacklib::Policy::Base {
     file_path  => $policy_path,

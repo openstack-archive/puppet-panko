@@ -30,8 +30,8 @@ class panko::config (
 
   include ::panko::deps
 
-  validate_hash($panko_config)
-  validate_hash($panko_api_paste_ini)
+  validate_legacy(Hash, 'validate_hash', $panko_config)
+  validate_legacy(Hash, 'validate_hash', $panko_api_paste_ini)
 
   create_resources('panko_config', $panko_config)
   create_resources('panko_api_paste_ini', $panko_api_paste_ini)
