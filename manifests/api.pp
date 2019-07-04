@@ -54,6 +54,10 @@
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $::os_service_default.
 #
+# [*max_request_body_size*]
+#   (Optional) Set max request body size
+#   Defaults to $::os_service_default.
+#
 # [*max_retries*]
 #   (Optional) Maximum number of connection retries during startup.
 #   Set to -1 to specify an infinite retry count. (integer value)
@@ -88,6 +92,7 @@ class panko::api (
   $sync_db                      = false,
   $auth_strategy                = 'keystone',
   $enable_proxy_headers_parsing = $::os_service_default,
+  $max_request_body_size        = $::os_service_default,
   $max_retries                  = $::os_service_default,
   $retry_interval               = $::os_service_default,
   $es_ssl_enabled               = $::os_service_default,
@@ -172,6 +177,7 @@ running as a standalone service, or httpd for being run by a httpd server")
 
   oslo::middleware { 'panko_config':
     enable_proxy_headers_parsing => $enable_proxy_headers_parsing,
+    max_request_body_size        => $max_request_body_size,
   }
 
 }

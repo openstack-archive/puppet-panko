@@ -50,6 +50,7 @@ describe 'panko::api' do
       is_expected.to contain_panko_config('storage/es_index_name').with_value(params[:es_index_name])
       is_expected.to contain_oslo__middleware('panko_config').with(
         :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
+        :max_request_body_size        => '<SERVICE DEFAULT>',
       )
       is_expected.to contain_panko_config('database/event_time_to_live').with_value( params[:event_time_to_live] )
     end
@@ -90,6 +91,16 @@ describe 'panko::api' do
 
       it { is_expected.to contain_oslo__middleware('panko_config').with(
         :enable_proxy_headers_parsing => true,
+      )}
+    end
+
+    context 'with max_request_body_size' do
+      before do
+        params.merge!({:max_request_body_size => '102400' })
+      end
+
+      it { is_expected.to contain_oslo__middleware('panko_config').with(
+        :max_request_body_size => '102400',
       )}
     end
 
