@@ -4,7 +4,7 @@ describe 'panko::api' do
 
   let :pre_condition do
     "class { 'panko': }
-     include ::panko::db
+     include panko::db
      class {'panko::keystone::authtoken':
        password => 'password',
      }"
@@ -129,8 +129,8 @@ describe 'panko::api' do
       end
 
       let :pre_condition do
-        "include ::apache
-         include ::panko::db
+        "include apache
+         include panko::db
          class { 'panko': }
          class {'panko::keystone::authtoken':
            password => 'password',
@@ -153,8 +153,8 @@ describe 'panko::api' do
       end
 
       let :pre_condition do
-        "include ::apache
-         include ::panko::db
+        "include apache
+         include panko::db
          class { 'panko': }"
       end
 

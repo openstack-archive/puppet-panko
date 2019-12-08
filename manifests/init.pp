@@ -18,7 +18,7 @@ class panko (
   $purge_config        = false,
 ) inherits panko::params {
 
-  include ::panko::deps
+  include panko::deps
 
   package { 'panko':
     ensure => $package_ensure,

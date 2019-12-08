@@ -32,7 +32,7 @@ class panko::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  include ::panko::deps
+  include panko::deps
 
   ::openstacklib::db::postgresql { 'panko':
     password_hash => postgresql_password($user, $password),

@@ -12,7 +12,7 @@ class panko::db::sync(
   $extra_params = undef,
 ) {
 
-  include ::panko::deps
+  include panko::deps
 
   exec { 'panko-db-sync':
     command     => "panko-dbsync --config-file /etc/panko/panko.conf ${extra_params}",

@@ -218,7 +218,7 @@ class panko::keystone::authtoken(
   $service_token_roles_required   = $::os_service_default,
 ) {
 
-  include ::panko::deps
+  include panko::deps
 
   keystone::resource::authtoken { 'panko_config':
     username                       => $username,

@@ -28,8 +28,8 @@ class panko::policy (
   $policy_path = '/etc/panko/policy.json',
 ) {
 
-  include ::panko::deps
-  include ::panko::params
+  include panko::deps
+  include panko::params
 
   validate_legacy(Hash, 'validate_hash', $policies)
 

@@ -123,7 +123,7 @@ class panko::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
-  include ::panko::deps
+  include panko::deps
 
   oslo::log { 'panko_config':
     use_stderr                    => $use_stderr,

@@ -12,8 +12,8 @@ class panko::client (
   $ensure = 'present'
 ) {
 
-  include ::panko::deps
-  include ::panko::params
+  include panko::deps
+  include panko::params
 
   package { 'python-pankoclient':
     ensure => $ensure,

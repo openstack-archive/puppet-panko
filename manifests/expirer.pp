@@ -34,8 +34,8 @@ class panko::expirer (
   $weekday     = '*',
 ) {
 
-  include ::panko::params
-  include ::panko::deps
+  include panko::params
+  include panko::deps
 
   Anchor['panko::install::end'] ~> Class['panko::expirer']
 

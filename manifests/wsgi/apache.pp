@@ -120,12 +120,12 @@ class panko::wsgi::apache (
   $custom_wsgi_process_options = {},
 ) {
 
-  include ::panko::deps
-  include ::panko::params
-  include ::apache
-  include ::apache::mod::wsgi
+  include panko::deps
+  include panko::params
+  include apache
+  include apache::mod::wsgi
   if $ssl {
-    include ::apache::mod::ssl
+    include apache::mod::ssl
   }
 
   ::openstacklib::wsgi::apache { 'panko_wsgi':

@@ -28,7 +28,7 @@ class panko::config (
   $panko_api_paste_ini = {},
 ) {
 
-  include ::panko::deps
+  include panko::deps
 
   validate_legacy(Hash, 'validate_hash', $panko_config)
   validate_legacy(Hash, 'validate_hash', $panko_api_paste_ini)

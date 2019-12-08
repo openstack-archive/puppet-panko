@@ -6,11 +6,11 @@ describe 'basic panko' do
 
     it 'should work with no errors' do
       pp= <<-EOS
-      include ::openstack_integration
-      include ::openstack_integration::repos
-      include ::openstack_integration::mysql
-      include ::openstack_integration::keystone
-      include ::openstack_integration::panko
+      include openstack_integration
+      include openstack_integration::repos
+      include openstack_integration::mysql
+      include openstack_integration::keystone
+      include openstack_integration::panko
       EOS
 
       # Run it twice and test for idempotency

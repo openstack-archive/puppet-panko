@@ -102,8 +102,8 @@ class panko::api (
 
   warning('This Class is deprecated and will be removed in future releases.')
 
-  include ::panko::deps
-  include ::panko::policy
+  include panko::deps
+  include panko::policy
 
   package { 'panko-api':
     ensure => $package_ensure,
@@ -120,7 +120,7 @@ class panko::api (
   }
 
   if $sync_db {
-    include ::panko::db::sync
+    include panko::db::sync
   }
 
   if $service_name == $::panko::params::api_service_name {
@@ -133,7 +133,7 @@ class panko::api (
       tag        => ['panko-service', 'panko-db-sync-service'],
     }
   } elsif $service_name == 'httpd' {
-    include ::apache::params
+    include apache::params
     service { 'panko-api':
       ensure => 'stopped',
       name   => $::panko::params::api_service_name,
@@ -165,7 +165,7 @@ running as a standalone service, or httpd for being run by a httpd server")
   }
 
   if $auth_strategy == 'keystone' {
-    include ::panko::keystone::authtoken
+    include panko::keystone::authtoken
     panko_api_paste_ini {
       'pipeline:main/pipeline':  value => 'panko+auth',
     }

@@ -87,7 +87,7 @@ class panko::keystone::auth (
   $internal_url        = 'http://127.0.0.1:8977',
 ) {
 
-  include ::panko::deps
+  include panko::deps
 
   keystone::resource::service_identity { 'panko':
     configure_user      => $configure_user,
