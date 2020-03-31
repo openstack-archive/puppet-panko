@@ -29,7 +29,15 @@ describe 'panko::client' do
         when 'Debian'
           { :client_package_name => 'python3-pankoclient' }
         when 'RedHat'
-          { :client_package_name => 'python-pankoclient' }
+          if facts[:operatingsystem] == 'Fedora'
+            { :client_package_name => 'python3-pankoclient' }
+          else
+            if facts[:operatingsystemmajrelease] > '7'
+              { :client_package_name => 'python3-pankoclient' }
+            else
+              { :client_package_name => 'python-pankoclient' }
+            end
+          end
         end
       end
 
