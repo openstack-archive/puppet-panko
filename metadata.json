@@ -71,5 +71,5 @@
     ],
     "source": "git://github.com/openstack/puppet-panko.git",
     "summary": "Puppet module for OpenStack Panko",
-    "version": "16.2.0"
+    "version": "16.2.1"
 }
