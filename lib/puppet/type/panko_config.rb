@@ -46,8 +46,8 @@ Puppet::Type.newtype(:panko_config) do
     defaultto('<SERVICE DEFAULT>')
   end
 
-  autorequire(:package) do
-    'panko'
+  autorequire(:anchor) do
+    ['panko::install::end']
   end
 
 end
