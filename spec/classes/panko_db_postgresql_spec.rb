@@ -7,7 +7,7 @@ describe 'panko::db::postgresql' do
   end
 
   let :required_params do
-    { :password => 'pw' }
+    { :password => 'pankopass' }
   end
 
   shared_examples_for 'panko-db-postgresql' do
@@ -16,9 +16,12 @@ describe 'panko::db::postgresql' do
         required_params
       end
 
-      it { is_expected.to contain_postgresql__server__db('panko').with(
-        :user     => 'panko',
-        :password => 'md558cac1b05100d25689b06310945fc3b4'
+      it { is_expected.to contain_openstacklib__db__postgresql('panko').with(
+        :user       => 'panko',
+        :password   => 'pankopass',
+        :dbname     => 'panko',
+        :encoding   => nil,
+        :privileges => 'ALL',
       )}
     end
   end
