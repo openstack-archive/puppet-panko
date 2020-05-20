@@ -7,7 +7,7 @@ describe 'panko::db::mysql' do
   end
 
   let :required_params do
-    { :password => 'fooboozoo_default_password', }
+    { :password => 'pankopass', }
   end
 
   shared_examples_for 'panko-db-mysql' do
@@ -17,12 +17,12 @@ describe 'panko::db::mysql' do
       end
 
       it { is_expected.to contain_openstacklib__db__mysql('panko').with(
-        :user           => 'panko',
-        :password_hash  => '*3DDF34A86854A312A8E2C65B506E21C91800D206',
-        :dbname         => 'panko',
-        :host           => '127.0.0.1',
-        :charset        => 'utf8',
-        :collate        => 'utf8_general_ci',
+        :user     => 'panko',
+        :password => 'pankopass',
+        :dbname   => 'panko',
+        :host     => '127.0.0.1',
+        :charset  => 'utf8',
+        :collate  => 'utf8_general_ci',
       )}
     end
 
@@ -32,13 +32,13 @@ describe 'panko::db::mysql' do
       end
 
       it { is_expected.to contain_openstacklib__db__mysql('panko').with(
-        :user           => 'panko',
-        :password_hash  => '*3DDF34A86854A312A8E2C65B506E21C91800D206',
-        :dbname         => 'panko',
-        :host           => '127.0.0.1',
-        :charset        => 'utf8',
-        :collate        => 'utf8_general_ci',
-        :allowed_hosts  => ['127.0.0.1','%']
+        :user          => 'panko',
+        :password      => 'pankopass',
+        :dbname        => 'panko',
+        :host          => '127.0.0.1',
+        :charset       => 'utf8',
+        :collate       => 'utf8_general_ci',
+        :allowed_hosts => ['127.0.0.1','%']
       )}
     end
 
@@ -48,13 +48,13 @@ describe 'panko::db::mysql' do
       end
 
       it { is_expected.to contain_openstacklib__db__mysql('panko').with(
-        :user           => 'panko',
-        :password_hash  => '*3DDF34A86854A312A8E2C65B506E21C91800D206',
-        :dbname         => 'panko',
-        :host           => '127.0.0.1',
-        :charset        => 'utf8',
-        :collate        => 'utf8_general_ci',
-        :allowed_hosts  => '192.168.1.1'
+        :user          => 'panko',
+        :password      => 'pankopass',
+        :dbname        => 'panko',
+        :host          => '127.0.0.1',
+        :charset       => 'utf8',
+        :collate       => 'utf8_general_ci',
+        :allowed_hosts => '192.168.1.1'
       )}
     end
   end
