@@ -25,6 +25,12 @@
 #  [*weekday*]
 #    (optional) Defaults to '*'.
 #
+#  [*maxdelay*]
+#    (optional) In Seconds. Should be a positive integer.
+#    Induces a random delay before running the cronjob to avoid running
+#    all cron jobs at the same time on all hosts this job is configured.
+#    Defaults to 0.
+#
 class panko::expirer (
   $enable_cron = true,
   $minute      = 1,
@@ -32,12 +38,11 @@ class panko::expirer (
   $monthday    = '*',
   $month       = '*',
   $weekday     = '*',
+  $maxdelay    = 0,
 ) {
 
   include panko::params
   include panko::deps
-
-  Anchor['panko::install::end'] ~> Class['panko::expirer']
 
   if $enable_cron {
     $ensure = 'present'
@@ -45,16 +50,23 @@ class panko::expirer (
     $ensure = 'absent'
   }
 
+  if $maxdelay == 0 {
+    $sleep = ''
+  } else {
+    $sleep = "sleep `expr \${RANDOM} \\% ${maxdelay}`; "
+  }
+
   cron { 'panko-expirer':
     ensure      => $ensure,
-    command     => $panko::params::expirer_command,
+    command     => "${sleep}${panko::params::expirer_command}",
     environment => 'PATH=/bin:/usr/bin:/usr/sbin SHELL=/bin/sh',
     user        => 'panko',
     minute      => $minute,
     hour        => $hour,
     monthday    => $monthday,
     month       => $month,
-    weekday     => $weekday
+    weekday     => $weekday,
+    require     => Anchor['panko::install::end'],
   }
 
 }

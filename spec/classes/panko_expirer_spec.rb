@@ -19,7 +19,30 @@ describe 'panko::expirer' do
         :hour        => 0,
         :monthday    => '*',
         :month       => '*',
-        :weekday     => '*'
+        :weekday     => '*',
+        :require     => 'Anchor[panko::install::end]'
+      )}
+    end
+
+    context 'with overridden parameters' do
+      before do
+        params.merge!( :maxdelay => 300 )
+      end
+
+      it { is_expected.to contain_class('panko::deps') }
+      it { is_expected.to contain_class('panko::params') }
+
+      it { is_expected.to contain_cron('panko-expirer').with(
+        :ensure      => 'present',
+        :command     => 'sleep `expr ${RANDOM} \\% 300`; panko-expirer',
+        :environment => 'PATH=/bin:/usr/bin:/usr/sbin SHELL=/bin/sh',
+        :user        => 'panko',
+        :minute      => 1,
+        :hour        => 0,
+        :monthday    => '*',
+        :month       => '*',
+        :weekday     => '*',
+        :require     => 'Anchor[panko::install::end]'
       )}
     end
 
@@ -37,7 +60,8 @@ describe 'panko::expirer' do
         :hour        => 0,
         :monthday    => '*',
         :month       => '*',
-        :weekday     => '*'
+        :weekday     => '*',
+        :require     => 'Anchor[panko::install::end]'
       )}
     end
   end
