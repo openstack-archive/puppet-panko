@@ -26,14 +26,17 @@ describe 'panko::expirer' do
 
     context 'with overridden parameters' do
       before do
-        params.merge!( :maxdelay => 300 )
+        params.merge!(
+          :ensure   => 'absent',
+          :maxdelay => 300
+        )
       end
 
       it { is_expected.to contain_class('panko::deps') }
       it { is_expected.to contain_class('panko::params') }
 
       it { is_expected.to contain_cron('panko-expirer').with(
-        :ensure      => 'present',
+        :ensure      => 'absent',
         :command     => 'sleep `expr ${RANDOM} \\% 300`; panko-expirer',
         :environment => 'PATH=/bin:/usr/bin:/usr/sbin SHELL=/bin/sh',
         :user        => 'panko',
@@ -46,7 +49,7 @@ describe 'panko::expirer' do
       )}
     end
 
-    context 'with cron not enabled' do
+    context 'with deprecated parameter' do
       before do
         params.merge!( :enable_cron => false )
       end

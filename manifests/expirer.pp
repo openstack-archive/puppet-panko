@@ -5,10 +5,9 @@
 #
 # === Parameters
 #
-#  [*enable_cron*]
-#    (optional) Whether to configure a crontab entry to run the expiry.
-#    When set to False, Puppet will try to remove the crontab.
-#    Defaults to true.
+#  [*ensure*]
+#    (optional) The state of cron job.
+#    Defaults to present.
 #
 #  [*minute*]
 #    (optional) Defaults to '1'.
@@ -31,23 +30,39 @@
 #    all cron jobs at the same time on all hosts this job is configured.
 #    Defaults to 0.
 #
+# DEPRECATED PARAMETERS
+#
+#  [*enable_cron*]
+#    (optional) Whether to configure a crontab entry to run the expiry.
+#    When set to False, Puppet will try to remove the crontab.
+#    Defaults to undef,
+#
 class panko::expirer (
-  $enable_cron = true,
+  $ensure      = 'present',
   $minute      = 1,
   $hour        = 0,
   $monthday    = '*',
   $month       = '*',
   $weekday     = '*',
   $maxdelay    = 0,
+  # DEPRECATED PARAMETERS
+  $enable_cron = undef,
 ) {
 
   include panko::params
   include panko::deps
 
-  if $enable_cron {
-    $ensure = 'present'
+  if $enable_cron != undef {
+    warning('The panko::expirer::enable_cron is deprecated and will be removed \
+in a future release. Use panko::expirer::ensure instead')
+
+    if $enable_cron {
+      $ensure_real = 'present'
+    } else {
+      $ensure_real = 'absent'
+    }
   } else {
-    $ensure = 'absent'
+    $ensure_real = $ensure
   }
 
   if $maxdelay == 0 {
@@ -57,7 +72,7 @@ class panko::expirer (
   }
 
   cron { 'panko-expirer':
-    ensure      => $ensure,
+    ensure      => $ensure_real,
     command     => "${sleep}${panko::params::expirer_command}",
     environment => 'PATH=/bin:/usr/bin:/usr/sbin SHELL=/bin/sh',
     user        => 'panko',

@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``panko::expirer::enable_cron`` parameter has been deprecated and will
+    be removed in a future release. Use ``panko::expirer::ensure`` instead.
