@@ -100,8 +100,6 @@ class panko::api (
   $event_time_to_live           = $::os_service_default,
 ) inherits panko::params {
 
-  warning('This Class is deprecated and will be removed in future releases.')
-
   include panko::deps
   include panko::policy
 
