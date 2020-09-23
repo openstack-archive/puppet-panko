@@ -25,13 +25,18 @@
 #  [*weekday*]
 #    (optional) Defaults to '*'.
 #
+#  [*events_delete_batch_size*]
+#    (optional) Limit number of deleted events in single purge run.
+#    Defaults to $::os_service_default.
+#
 class panko::expirer (
-  $enable_cron = true,
-  $minute      = 1,
-  $hour        = 0,
-  $monthday    = '*',
-  $month       = '*',
-  $weekday     = '*',
+  $enable_cron              = true,
+  $minute                   = 1,
+  $hour                     = 0,
+  $monthday                 = '*',
+  $month                    = '*',
+  $weekday                  = '*',
+  $events_delete_batch_size = $::os_service_default,
 ) {
 
   include panko::params
@@ -43,6 +48,10 @@ class panko::expirer (
     $ensure = 'present'
   } else {
     $ensure = 'absent'
+  }
+
+  panko_config { 'database/events_delete_batch_size':
+    value => $events_delete_batch_size
   }
 
   cron { 'panko-expirer':
