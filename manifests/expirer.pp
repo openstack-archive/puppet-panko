@@ -30,6 +30,10 @@
 #    all cron jobs at the same time on all hosts this job is configured.
 #    Defaults to 0.
 #
+#  [*events_delete_batch_size*]
+#    (optional) Limit number of deleted events in single purge run.
+#    Defaults to $::os_service_default.
+#
 # DEPRECATED PARAMETERS
 #
 #  [*enable_cron*]
@@ -38,13 +42,14 @@
 #    Defaults to undef,
 #
 class panko::expirer (
-  $ensure      = 'present',
-  $minute      = 1,
-  $hour        = 0,
-  $monthday    = '*',
-  $month       = '*',
-  $weekday     = '*',
-  $maxdelay    = 0,
+  $ensure                   = 'present',
+  $minute                   = 1,
+  $hour                     = 0,
+  $monthday                 = '*',
+  $month                    = '*',
+  $weekday                  = '*',
+  $maxdelay                 = 0,
+  $events_delete_batch_size = $::os_service_default,
   # DEPRECATED PARAMETERS
   $enable_cron = undef,
 ) {
@@ -69,6 +74,10 @@ in a future release. Use panko::expirer::ensure instead')
     $sleep = ''
   } else {
     $sleep = "sleep `expr \${RANDOM} \\% ${maxdelay}`; "
+  }
+
+  panko_config { 'database/events_delete_batch_size':
+    value => $events_delete_batch_size
   }
 
   cron { 'panko-expirer':

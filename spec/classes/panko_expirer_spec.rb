@@ -9,6 +9,7 @@ describe 'panko::expirer' do
     context 'with default' do
       it { is_expected.to contain_class('panko::deps') }
       it { is_expected.to contain_class('panko::params') }
+      it { is_expected.to contain_panko_config('database/events_delete_batch_size').with_value('<SERVICE DEFAULT>') }
 
       it { is_expected.to contain_cron('panko-expirer').with(
         :ensure      => 'present',
@@ -27,13 +28,15 @@ describe 'panko::expirer' do
     context 'with overridden parameters' do
       before do
         params.merge!(
-          :ensure   => 'absent',
-          :maxdelay => 300
+          :ensure                   => 'absent',
+          :maxdelay                 => 300,
+          :events_delete_batch_size => 500
         )
       end
 
       it { is_expected.to contain_class('panko::deps') }
       it { is_expected.to contain_class('panko::params') }
+      it { is_expected.to contain_panko_config('database/events_delete_batch_size').with_value(500) }
 
       it { is_expected.to contain_cron('panko-expirer').with(
         :ensure      => 'absent',
