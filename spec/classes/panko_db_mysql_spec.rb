@@ -16,6 +16,8 @@ describe 'panko::db::mysql' do
         required_params
       end
 
+      it { should contain_class('panko::deps') }
+
       it { is_expected.to contain_openstacklib__db__mysql('panko').with(
         :user     => 'panko',
         :password => 'pankopass',
