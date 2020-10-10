@@ -16,6 +16,8 @@ describe 'panko::db::postgresql' do
         required_params
       end
 
+      it { is_expected.to contain_class('panko::deps') }
+
       it { is_expected.to contain_openstacklib__db__postgresql('panko').with(
         :user       => 'panko',
         :password   => 'pankopass',
