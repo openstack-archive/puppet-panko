@@ -10,23 +10,6 @@
 #   (optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
 #
-# [*host*]
-#   (optional) The panko api bind address.
-#   Defaults to 0.0.0.0
-#
-# [*port*]
-#   (optional) The panko api port.
-#   Defaults to 8977
-#
-# [*workers*]
-#   (optional) Number of workers for Panko API server.
-#   Defaults to $::os_workers
-#
-# [*max_limit*]
-#   (optional) The maximum number of items returned in a
-#   single response from a collection resource.
-#   Defaults to 1000
-#
 # [*package_ensure*]
 #   (optional) ensure state for package.
 #   Defaults to 'present'
@@ -80,14 +63,29 @@
 #   (<= 0 means forever)
 #   Defaults to $::os_service_default.
 #
+# DEPRECATED PARAMETERS
+#
+# [*host*]
+#   (optional) The panko api bind address.
+#   Defaults to undef
+#
+# [*port*]
+#   (optional) The panko api port.
+#   Defaults to undef
+#
+# [*workers*]
+#   (optional) Number of workers for Panko API server.
+#   Defaults to undef
+#
+# [*max_limit*]
+#   (optional) The maximum number of items returned in a
+#   single response from a collection resource.
+#   Defaults to undef
+#
 class panko::api (
   $manage_service               = true,
   $enabled                      = true,
   $package_ensure               = 'present',
-  $host                         = '0.0.0.0',
-  $port                         = '8977',
-  $workers                      = $::os_workers,
-  $max_limit                    = 1000,
   $service_name                 = $::panko::params::api_service_name,
   $sync_db                      = false,
   $auth_strategy                = 'keystone',
@@ -98,7 +96,25 @@ class panko::api (
   $es_ssl_enabled               = $::os_service_default,
   $es_index_name                = $::os_service_default,
   $event_time_to_live           = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $host                         = undef,
+  $port                         = undef,
+  $workers                      = undef,
+  $max_limit                    = undef,
 ) inherits panko::params {
+
+  if $host != undef {
+    warning('The panko::api::host parameter is deprecated and has no effect')
+  }
+  if $port != undef {
+    warning('The panko::api::port parameter is deprecated and has no effect')
+  }
+  if $workers != undef {
+    warning('The panko::api::workers parameter is deprecated and has no effect')
+  }
+  if $max_limit != undef {
+    warning('The panko::api::max_limit parameter is deprecated and has no effect')
+  }
 
   include panko::deps
   include panko::policy
@@ -121,10 +137,11 @@ class panko::api (
     include panko::db::sync
   }
 
-  if $service_name == $::panko::params::api_service_name {
+  $api_service_name = $::panko::params::api_service_name
+  if $api_service_name != 'httpd' and $service_name == $api_service_name {
     service { 'panko-api':
       ensure     => $service_ensure,
-      name       => $::panko::params::api_service_name,
+      name       => $api_service_name,
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,
@@ -132,29 +149,26 @@ class panko::api (
     }
   } elsif $service_name == 'httpd' {
     include apache::params
-    service { 'panko-api':
-      ensure => 'stopped',
-      name   => $::panko::params::api_service_name,
-      enable => false,
-      tag    => ['panko-service', 'panko-db-sync-service'],
-    }
-    Class['panko::db'] -> Service[$service_name]
     Service <| title == 'httpd' |> {
       tag +> ['panko-service', 'panko-db-sync-service']
     }
+    Class['panko::db'] -> Service[$service_name]
 
-    # we need to make sure panko-api/eventlet is stopped before trying to start apache
-    Service['panko-api'] -> Service[$service_name]
+    if $api_service_name != 'httpd' {
+      service { 'panko-api':
+        ensure => 'stopped',
+        name   => $api_service_name,
+        enable => false,
+        tag    => ['panko-service', 'panko-db-sync-service'],
+      }
+      # we need to make sure panko-api/eventlet is stopped before trying to start apache
+      Service['panko-api'] -> Service[$service_name]
+    }
   } else {
-    fail("Invalid service_name. Either panko/openstack-panko-api for \
-running as a standalone service, or httpd for being run by a httpd server")
+    fail('Invalid service_name.')
   }
 
   panko_config {
-    'api/host':                    value => $host;
-    'api/port':                    value => $port;
-    'api/workers':                 value => $workers;
-    'api/max_limit':               value => $max_limit;
     'storage/max_retries':         value => $max_retries;
     'storage/retry_interval':      value => $retry_interval;
     'storage/es_ssl_enabled':      value => $es_ssl_enabled;
