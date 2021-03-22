@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe 'panko::policy' do
-
-  shared_examples_for 'panko policies' do
+  shared_examples 'panko::policy' do
     let :params do
       {
-        :policy_path => '/etc/panko/policy.yaml',
-        :policies    => {
+        :enforce_scope => false,
+        :policy_path   => '/etc/panko/policy.yaml',
+        :policies      => {
           'context_is_admin' => {
             'key'   => 'context_is_admin',
             'value' => 'foo:bar'
@@ -24,20 +24,21 @@ describe 'panko::policy' do
         :file_format => 'yaml',
       })
       is_expected.to contain_oslo__policy('panko_config').with(
-        :policy_file => '/etc/panko/policy.yaml',
+        :enforce_scope => false,
+        :policy_file   => '/etc/panko/policy.yaml',
       )
     end
   end
 
   on_supported_os({
-    :supported_os   => OSDefaults.get_supported_os
+    :supported_os => OSDefaults.get_supported_os
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_configures 'panko policies'
+      it_behaves_like 'panko::policy'
     end
   end
 end
