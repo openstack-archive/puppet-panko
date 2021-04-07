@@ -34,6 +34,11 @@ class panko::deps {
   -> Panko_api_paste_ini<||>
   ~> Anchor['panko::config::end']
 
+  # On any uwsgi config change, we must restart Panko API.
+  Anchor['panko::config::begin']
+  -> Panko_api_uwsgi_config<||>
+  ~> Anchor['panko::config::end']
+
   # all db settings should be applied and all packages should be installed
   # before dbsync starts
   Oslo::Db<||> -> Anchor['panko::dbsync::begin']
