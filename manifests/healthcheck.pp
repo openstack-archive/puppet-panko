@@ -1,4 +1,4 @@
-# == Define: panko::healthcheck
+# == Class: panko::healthcheck
 #
 # Configure oslo_middleware options in healthcheck section
 #
