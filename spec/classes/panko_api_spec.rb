@@ -3,7 +3,8 @@ require 'spec_helper'
 describe 'panko::api' do
 
   let :pre_condition do
-    "class { 'panko': }
+    "include apache
+     class { 'panko': }
      include panko::db
      class {'panko::keystone::authtoken':
        password => 'password',
@@ -14,9 +15,6 @@ describe 'panko::api' do
     { :enabled            => true,
       :manage_service     => true,
       :package_ensure     => 'latest',
-      :port               => '8977',
-      :max_limit          => '1000',
-      :host               => '0.0.0.0',
       :max_retries        => '10',
       :retry_interval     => '20',
       :es_ssl_enabled     => true,
@@ -40,10 +38,6 @@ describe 'panko::api' do
     end
 
     it 'configures keystone authentication middleware' do
-      is_expected.to contain_panko_config('api/host').with_value( params[:host] )
-      is_expected.to contain_panko_config('api/port').with_value( params[:port] )
-      is_expected.to contain_panko_config('api/max_limit').with_value( params[:max_limit] )
-      is_expected.to contain_panko_config('api/workers').with_value('2')
       is_expected.to contain_panko_config('storage/max_retries').with_value(params[:max_retries])
       is_expected.to contain_panko_config('storage/retry_interval').with_value(params[:retry_interval])
       is_expected.to contain_panko_config('storage/es_ssl_enabled').with_value(params[:es_ssl_enabled])
@@ -53,27 +47,6 @@ describe 'panko::api' do
         :max_request_body_size        => '<SERVICE DEFAULT>',
       )
       is_expected.to contain_panko_config('database/event_time_to_live').with_value( params[:event_time_to_live] )
-    end
-
-    [{:enabled => true}, {:enabled => false}].each do |param_hash|
-      context "when service should be #{param_hash[:enabled] ? 'enabled' : 'disabled'}" do
-        before do
-          params.merge!(param_hash)
-        end
-
-        it 'configures panko-api service' do
-          is_expected.to contain_service('panko-api').with(
-            :ensure     => (params[:manage_service] && params[:enabled]) ? 'running' : 'stopped',
-            :name       => platform_params[:api_service_name],
-            :enable     => params[:enabled],
-            :hasstatus  => true,
-            :hasrestart => true,
-            :tag        => ['panko-service', 'panko-db-sync-service'],
-          )
-        end
-        it { is_expected.to contain_service('panko-api').that_subscribes_to('Anchor[panko::service::begin]')}
-        it { is_expected.to contain_service('panko-api').that_notifies('Anchor[panko::service::end]')}
-      end
     end
 
     context 'with sync_db set to true' do
@@ -102,6 +75,82 @@ describe 'panko::api' do
       it { is_expected.to contain_oslo__middleware('panko_config').with(
         :max_request_body_size => '102400',
       )}
+    end
+
+    context 'when service_name is not valid' do
+      before do
+        params.merge!({ :service_name   => 'foobar' })
+      end
+
+      let :pre_condition do
+        "include apache
+         include panko::db
+         class { 'panko': }"
+      end
+
+      it_raises 'a Puppet::Error', /Invalid service_name/
+    end
+
+    context "with noauth" do
+      before do
+        params.merge!({
+          :auth_strategy => 'noauth',
+        })
+      end
+      it 'configures pipeline' do
+        is_expected.to contain_panko_api_paste_ini('pipeline:main/pipeline').with_value('panko+noauth');
+      end
+    end
+
+    context "with keystone" do
+      before do
+        params.merge!({
+          :auth_strategy => 'keystone',
+        })
+      end
+      it 'configures pipeline' do
+        is_expected.to contain_panko_api_paste_ini('pipeline:main/pipeline').with_value('panko+auth');
+      end
+    end
+  end
+
+
+  shared_examples_for 'panko-api without standalone service' do
+
+    let :pre_condition do
+      "include apache
+       include panko::db
+       class { 'panko': }
+       class {'panko::keystone::authtoken':
+         password => 'password',
+       }"
+    end
+
+    it { is_expected.to_not contain_service('panko-api') }
+  end
+
+
+  shared_examples_for 'panko-api with standalone service' do
+
+    [{:enabled => true}, {:enabled => false}].each do |param_hash|
+      context "when service should be #{param_hash[:enabled] ? 'enabled' : 'disabled'}" do
+        before do
+          params.merge!(param_hash)
+        end
+
+        it 'configures panko-api service' do
+          is_expected.to contain_service('panko-api').with(
+            :ensure     => (params[:manage_service] && params[:enabled]) ? 'running' : 'stopped',
+            :name       => platform_params[:api_service_name],
+            :enable     => params[:enabled],
+            :hasstatus  => true,
+            :hasrestart => true,
+            :tag        => ['panko-service', 'panko-db-sync-service'],
+          )
+        end
+        it { is_expected.to contain_service('panko-api').that_subscribes_to('Anchor[panko::service::begin]')}
+        it { is_expected.to contain_service('panko-api').that_notifies('Anchor[panko::service::end]')}
+      end
     end
 
     context 'with disabled service managing' do
@@ -146,42 +195,6 @@ describe 'panko::api' do
         )
       end
     end
-
-    context 'when service_name is not valid' do
-      before do
-        params.merge!({ :service_name   => 'foobar' })
-      end
-
-      let :pre_condition do
-        "include apache
-         include panko::db
-         class { 'panko': }"
-      end
-
-      it_raises 'a Puppet::Error', /Invalid service_name/
-    end
-
-    context "with noauth" do
-      before do
-        params.merge!({
-          :auth_strategy => 'noauth',
-        })
-      end
-      it 'configures pipeline' do
-        is_expected.to contain_panko_api_paste_ini('pipeline:main/pipeline').with_value('panko+noauth');
-      end
-    end
-
-    context "with keystone" do
-      before do
-        params.merge!({
-          :auth_strategy => 'keystone',
-        })
-      end
-      it 'configures pipeline' do
-        is_expected.to contain_panko_api_paste_ini('pipeline:main/pipeline').with_value('panko+auth');
-      end
-    end
   end
 
   on_supported_os({
@@ -197,12 +210,21 @@ describe 'panko::api' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          { :api_package_name => 'panko-api',
-            :api_service_name => 'panko-api' }
+          if facts[:operatingsystem] == 'Ubuntu'
+            { :api_package_name => 'panko-api' }
+          else
+            { :api_package_name => 'panko-api',
+              :api_service_name => 'panko-api' }
+          end
         when 'RedHat'
-          { :api_package_name => 'openstack-panko-api',
-            :api_service_name => 'openstack-panko-api' }
+          { :api_package_name => 'openstack-panko-api' }
         end
+      end
+
+      if facts[:osfamily] == 'Debian' and facts[:operatingsystem] != 'Ubuntu'
+        it_behaves_like 'panko-api with standalone service'
+      else
+        it_behaves_like 'panko-api without standalone service'
       end
       it_behaves_like 'panko-api'
     end

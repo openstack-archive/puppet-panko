@@ -12,14 +12,21 @@ class panko::params {
     'RedHat': {
       $common_package_name      = 'openstack-panko-common'
       $api_package_name         = 'openstack-panko-api'
-      $api_service_name         = 'openstack-panko-api'
+      $api_service_name         = 'httpd'
       $panko_wsgi_script_path   = '/var/www/cgi-bin/panko'
       $panko_wsgi_script_source = '/usr/bin/panko-api'
     }
     'Debian': {
       $common_package_name      = 'panko-common'
       $api_package_name         = 'panko-api'
-      $api_service_name         = 'panko-api'
+      case $::operatingsystem {
+        'Ubuntu': {
+          $api_service_name = 'httpd'
+        }
+        default: {
+          $api_service_name = 'panko-api'
+        }
+      }
       $panko_wsgi_script_path   = '/usr/lib/cgi-bin/panko'
       $panko_wsgi_script_source = '/usr/bin/panko-api'
     }
