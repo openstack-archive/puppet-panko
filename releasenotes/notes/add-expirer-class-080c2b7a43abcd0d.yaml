@@ -1,4 +1,0 @@
----
-fixes:
-  - |
-    Add panko expirer class so we can configure it in crontab accordingly.

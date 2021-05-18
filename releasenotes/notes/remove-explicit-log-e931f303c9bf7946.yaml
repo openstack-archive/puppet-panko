@@ -1,5 +1,0 @@
----
-fixes:
-  - Remove explcit panko.log file as this messes up the selinux context.
-    When apache writes to it it complains. Instead let apache create
-    the app.log on its own so the context are correct.

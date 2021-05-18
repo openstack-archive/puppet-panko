@@ -1,6 +1,0 @@
----
-features:
-  - |
-    Added events_delete_batch_size parameter to the expirer class to enable configuration
-    of the parameter with same name. It serves the purpose of limiting number of deleted
-    events in single purge run.

@@ -1,7 +1,0 @@
----
-features:
-  - |
-    The new ``panko::expirer::maxdelay`` parameter has been added. If this
-    parameter has a positive value, it avoids collisional execution of
-    panko-expirer in multiple nodes, by introducing randomized sleep before
-    command execution.
